@@ -2,11 +2,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class PixelatorRunnable implements Runnable{
-    //Konstruktor mit Ursprungsbildobjekt, obere linke, untere rechte, leeres Bildobjekt
+    private final Main.Type type;
     private BufferedImage source, target;
     private int blockWidth, blockHeight, index, rows, columns, numThreads;
 
-    public PixelatorRunnable(BufferedImage source, BufferedImage target, int blockWidth, int blockHeight, int index, int numThreads) {
+    public PixelatorRunnable(BufferedImage source, BufferedImage target, int blockWidth, int blockHeight, int index, int numThreads, Main.Type type) {
         this.source = source;
         this.target = target;
         this.blockWidth = blockWidth;
@@ -15,6 +15,7 @@ public class PixelatorRunnable implements Runnable{
         this.rows = source.getHeight()/blockHeight;
         this.columns = source.getWidth()/blockWidth;
         this.numThreads = numThreads;
+        this.type = type;
     }
 
     @Override
@@ -38,9 +39,20 @@ public class PixelatorRunnable implements Runnable{
             } rot = rot/(blockHeight*blockWidth);
             gruen = gruen / (blockHeight*blockHeight);
             blau = blau / (blockHeight * blockWidth);
+
             //spalte, zeile rechteck malen mit der farbe average_rot, average_blau, average_grün
             graphics.setColor(new Color(rot, gruen, blau));
-            graphics.fillRect(spalte*blockWidth, zeile*blockHeight, blockWidth, blockHeight);
+
+            switch(type) {
+                case CIRCLE: {
+                    graphics.fillOval(spalte * blockWidth, zeile * blockHeight, blockWidth, blockHeight);
+                    break;
+                }
+                case RECTANGLE: {
+                    graphics.fillRect(spalte*blockWidth, zeile*blockHeight, blockWidth, blockHeight);
+                    break;
+                }
+            }
             graphics.dispose();
             index += numThreads;
         }
