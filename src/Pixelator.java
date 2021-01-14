@@ -22,6 +22,7 @@ public class Pixelator{
         height = source.getHeight();
         target = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
+        System.out.println("Eine kleine änderung!");
         //leeres Bild erstellen als BildObjekt
         Thread t = new Thread(new PixelatorRunnable(source, target, 10, 10, 0, 1));
         t.start();
