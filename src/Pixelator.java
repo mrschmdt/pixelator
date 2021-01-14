@@ -23,17 +23,17 @@ public class Pixelator{
 
         target = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
-        Thread t = new Thread(new PixelatorRunnable(source, target, 10, 10, 0, 1, type));
+        Thread t = new Thread(new PixelatorRunnable(source, target, 20, 20, 0, 1, type));
         t.start();
         try {
            t.join();
         }catch(InterruptedException e) {
 
         }
-        System.out.println(inputFile.getParent());
+
         try{
-            File outputfile = new File(inputFile.getParent()+"\\" + inputFile.getName().substring(0, inputFile.getName().lastIndexOf(".")) + " - " + ((int)(Math.random()*100)) + " pixelated.jpg");
-            ImageIO.write(target, "jpg", outputfile);
+            File outputfile = new File(inputFile.getParent()+"\\" + inputFile.getName().substring(0, inputFile.getName().lastIndexOf(".")) + " - " + ((int)(Math.random()*100)) + " pixelated.png");
+            ImageIO.write(target, "png", outputfile);
         } catch (IOException e) {
 
         }

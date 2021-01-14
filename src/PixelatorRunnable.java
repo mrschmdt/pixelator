@@ -20,15 +20,17 @@ public class PixelatorRunnable implements Runnable{
 
     @Override
     public void run() {
+        Graphics2D graphics = target.createGraphics();
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+
         while(index < rows*columns) {
             int zeile = index / columns;
             int spalte = index % columns;
             int rot = 0;
             int gruen = 0;
             int blau = 0;
-            Graphics2D graphics = target.createGraphics();
-            System.out.println(zeile*blockWidth);
-            System.out.println(spalte*blockHeight);
+
             for(int i = zeile*blockWidth; i<zeile*blockWidth+blockWidth; i++) {
                 for(int j = spalte*blockHeight; j<spalte*blockHeight+blockHeight; j++) {
                     int clr = source.getRGB(j,i);
@@ -53,9 +55,10 @@ public class PixelatorRunnable implements Runnable{
                     break;
                 }
             }
-            graphics.dispose();
             index += numThreads;
         }
+        graphics.dispose();
+
     }
 }
 /*
